@@ -1,0 +1,39 @@
+# LaTeX 辅助文件
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+
+# LaTeX 临时
+*.bbl
+*.bcf
+*.blg
+*-blx.aux
+*-blx.bib
+*.run.xml
+
+# 文档中间产物
+*.idx
+*.ilg
+*.ind
+*.synctex.gz
+*.synctex(busy)
+
+# 其他
+*.bak
+*.swp
+Thumbs.db
+
+# IDE
+.vscode/
+
+# 参考教材 PDF（非本人内容，不上传）
+常微分方程及其应用.pdf

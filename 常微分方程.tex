@@ -1,0 +1,27 @@
+\documentclass{ctexbook}
+\usepackage{allpage}
+\begin{document}
+
+\frontmatter %前言部分
+\maketitle %标题页
+\thispagestyle{empty}
+
+%\include{前言}
+
+\begin{multicols}{2}
+\tableofcontents %目录
+\end{multicols}
+
+\mainmatter %正文部分
+\include{1. 解的存在唯一性}
+\include{2. 一阶微分方程}
+\include{3. 二阶及高阶微分方程}
+% \include{4} 
+% \include{5}
+% \include{6}
+% \include{7}
+% \include{8} 
+
+%附录部分
+\appendix
+\end{document}

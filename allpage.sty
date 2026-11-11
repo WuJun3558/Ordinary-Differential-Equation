@@ -1,0 +1,136 @@
+%颜色设置
+\RequirePackage{xcolor}
+\definecolor{myred}{RGB}{230,20,20}
+\definecolor{myblue1}{RGB}{0,100,200}
+\definecolor{myblue2}{RGB}{0,120,170}
+\definecolor{myyellow}{RGB}{210,190,10}
+\definecolor{mygreen}{RGB}{100,200,100}
+\definecolor{myorange}{RGB}{204,102,0}
+
+%数学公式宏包
+\RequirePackage{amsmath}
+\RequirePackage{amsthm}
+\RequirePackage{amssymb}
+\RequirePackage{extarrows}
+\RequirePackage{cancel}
+\RequirePackage{centernot}
+\RequirePackage{tikz}
+\RequirePackage{bm}
+\allowdisplaybreaks
+
+%图片宏包
+\RequirePackage{graphicx}    % 支持插入图片（\includegraphics）
+\RequirePackage{subcaption}  % 支持 subfigure 子图环境
+\RequirePackage{geometry}    % 调整页面边距，避免溢出（可选但推荐）
+
+\RequirePackage{multicol}
+
+% LuYaming's code 定理等环境
+%定义
+\newcounter{defcon}[section]
+\newcommand{\defcon}{\arabic{defcon}}
+\newenvironment{deff}[1][]{\par\refstepcounter{defcon}\textbf{\textcolor{myred}{【定义\defcon】#1}}}{\par}
+%公理
+\newcounter{Axcon}[section]
+\newcommand{\Axcon}{\arabic{Axcon}}
+\newenvironment{Ax}[1][]{\par\refstepcounter{Axcon}\textbf{\textcolor{myred}{【公理\Axcon】#1}}}{\par}
+%定理
+\newcounter{thmcon}[section]
+\newcommand{\thmcon}{\arabic{thmcon}}
+\newenvironment{thm}[1][]{\par\refstepcounter{thmcon}\textbf{\textcolor{myblue1}{【定理\thmcon】#1}}}{\par}
+%命题
+\newcounter{propcon}[section]
+\newcommand{\propcon}{\arabic{propcon}}
+\newenvironment{prop}[1][]{\par\refstepcounter{propcon}\textbf{\textcolor{myblue1}{【命题\propcon】#1}}}{\par}
+%推论
+\newcounter{corcon}[section]
+\newcommand{\corcon}{\arabic{corcon}}
+\newenvironment{cor}[1][]{\par\refstepcounter{corcon}\textbf{\textcolor{myblue1}{【推论\corcon】#1}}}{\par}
+%引理
+\newcounter{lemcon}[section]
+\newcommand{\lemcon}{\arabic{lemcon}}
+\newenvironment{lem}[1][]{\par\refstepcounter{lemcon}\textbf{\textcolor{myorange}{【引理\lemcon】#1}}}{\par}
+%例
+\newcounter{egcon}[section]
+\newcommand{\egcon}{\arabic{egcon}}
+\newenvironment{eg}[1][]{\par\refstepcounter{egcon}\textbf{\textcolor{mygreen}{【例\egcon】#1}}}{\par}
+%练习
+\newcounter{examcon}[section]
+\newcommand{\examcon}{\arabic{examcon}}
+\newenvironment{exam}[1][]{\par\refstepcounter{examcon}\textbf{\textcolor{mygreen}{【练习\examcon】#1}}}{\par}
+%注
+\newenvironment{rmk}{\par\textbf{\textcolor{myyellow}{【注】}}}{\par}
+%证明
+\newenvironment{pf1}{\par\textbf{\textcolor{myblue2}{证明：}}}{\hfill\qed\par}
+%解
+\newenvironment{pf2}{\par\textbf{\textcolor{myblue2}{解：}}}{\hfill\qed\par}
+
+\numberwithin{equation}{chapter}
+
+%简化命令
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\dd}{\mathrm{d}}
+\NewDocumentCommand{\p}{m m o}{%
+   \IfNoValueTF{#3}%
+      {\frac{\partial #1}{\partial #2}}%          % 情况1：没写阶数，输出一阶
+      {\frac{\partial^{#3} #1}{\partial #2^{#3}}}% % 情况2：写了阶数，输出高阶
+}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\Dom}{Dom}
+\DeclareMathOperator{\Rg}{Rg}
+\DeclareMathOperator{\graph}{graph}
+\newcommand{\lint}{%
+    \mathop{\tikz[baseline, line width=0.1ex, x=1.3ex, y=1.3ex]{
+        \draw (0,0) node {$\displaystyle\int$};
+        \draw[line cap=round] (-0.5,0.1) -- (0.5,-0.1);
+    }}\nolimits%
+}
+
+
+%页眉页脚
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\fancyhf{}
+\fancyfoot[C]{\bfseries\thepage}
+\fancyhead[LO]{\bfseries\rightmark}
+\fancyhead[RE]{\bfseries\leftmark}
+\renewcommand{\headrulewidth}{0.4pt} % 注意不用 \setlength
+\renewcommand{\footrulewidth}{0pt}
+
+
+\RequirePackage{geometry}
+\geometry{
+  left=2.5cm,    % 左边距2.5cm
+  right=2cm, % 右边距2cm
+  top=1.5cm,     % 上边距1.5cm
+  bottom=2cm,% 下边距2cm
+  paper=a4paper, % 纸张为A4
+  includehead, % 上边距包含页眉
+  includefoot  % 下边距包含页脚
+}
+
+%超链接
+\usepackage[
+    colorlinks=true,    % 用颜色区分链接，而非边框
+    linkcolor=black,     % 内部链接（如目录到正文）颜色
+    citecolor=green,    % 引用链接颜色
+    urlcolor=cyan       % 网址链接颜色
+]{hyperref}
+
+%浮动体精确定位
+\usepackage{float}
+
+%标题
+\renewcommand{\maketitle}{\begin{titlepage}
+    \begin{center}
+        \vspace*{8cm}
+        {\Huge\textbf{常微分方程}}
+        
+        \vspace{6cm}
+        
+        {\LARGE 吴俊\\ \vspace{1.5ex} \today}
+    \end{center}
+\end{titlepage}}
