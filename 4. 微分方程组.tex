@@ -1,0 +1,1117 @@
+\chapter{微分方程组}
+前几章讨论的是一个未知函数所满足的微分方程. 在实际问题与理论研究中，
+还经常出现多个未知函数相互耦合的情形，这便引出微分方程组.
+
+本章可类比第三章，建立线性方程组的解空间理论，并讨论一些特殊情况的微
+分方程组的求解方法.
+
+\section{微分方程组的概念}\label{sec:4.1}
+
+\subsection{基本概念}
+
+\begin{deff}[(一阶微分方程组及其解与初值问题)]
+含有 $n$ 个未知函数 $x_1(t),\ldots,x_n(t)$，并且每个方程关于未知函数的
+导数都是一阶的方程组
+\begin{equation}\label{equ:4.1}
+\left\{
+\begin{aligned}
+&\frac{dx_1}{dt}=f_1(t,x_1,\ldots,x_n),\\
+&\frac{dx_2}{dt}=f_2(t,x_1,\ldots,x_n),\\
+&\qquad\vdots\\
+&\frac{dx_n}{dt}=f_n(t,x_1,\ldots,x_n)
+\end{aligned}
+\right.
+\end{equation}
+称为\textbf{一阶微分方程组}.
+
+方程组中出现的未知函数导数的最高阶数称为方程组的\textbf{阶数}. 若每个
+$f_i(t,x_1,\ldots,x_n)$ 关于所有未知函数都是一次的，则称该方程组为
+\textbf{线性微分方程组}；否则称为\textbf{非线性微分方程组}.
+
+对于一阶线性方程组，若我们记
+\[
+\bm{x}=
+\begin{pmatrix}
+x_1\\ \vdots\\ x_n
+\end{pmatrix},\quad
+A(t)=
+\begin{pmatrix}
+a_{11}(t)&\cdots&a_{1n}(t)\\
+\vdots&&\vdots\\
+a_{n1}(t)&\cdots&a_{nn}(t)
+\end{pmatrix},\quad
+\bm{f}(t)=
+\begin{pmatrix}
+f_1(t)\\ \vdots\\ f_n(t)
+\end{pmatrix},
+\]
+则 (\ref{equ:4.1}) 可写成矩阵形式
+\begin{equation}\label{equ:4.2}
+\frac{d\bm{x}}{dt}=A(t)\bm{x}+\bm{f}(t).
+\end{equation}
+当 $\bm{f}(t)\equiv\bm{0}$ 时称为\textbf{齐次线性方程组}，否则称为
+\textbf{非齐次线性方程组}.
+
+若函数组 $x_1(t),\ldots,x_n(t)$ 在区间 $I$ 上可微，并且代入
+(\ref{equ:4.1}) 后在 $I$ 上使每个方程恒成立，则称其为方程组在
+$I$ 上的一个\textbf{解}. 含有 $n$ 个相互独立任意常数
+$C_1,\ldots,C_n$ 的解
+\[
+x_i=\varphi_i(t,C_1,\ldots,C_n),\qquad i=1,\ldots,n
+\]
+称为方程组的\textbf{通解}. 若由 $n$ 个关系式
+\[
+\Phi_i(t,x_1,\ldots,x_n;C_1,\ldots,C_n)=0,
+\qquad i=1,\ldots,n
+\]
+隐式给出通解，则称其为\textbf{通积分}. 给定
+\begin{equation}\label{equ:4.3}
+x_1(t_0)=x_{10},\quad x_2(t_0)=x_{20},\quad\ldots,\quad x_n(t_0)=x_{n0},
+\end{equation}
+称为方程组的\textbf{初始条件}；方程组与初始条件合在一起称为
+\textbf{初值问题}. 将初始条件代入通解或通积分确定常数后所得的解称为
+\textbf{特解}.
+\end{deff}
+
+\subsection{高阶方程组化为一阶方程组}
+
+高阶微分方程组可以通过增加状态变量化为一阶方程组.
+
+\begin{prop}\label{prop:4.1.1}
+设显式 $n$ 阶方程
+\begin{equation}\label{equ:4.4}
+y^{(n)}=f\left(t,y,y',\ldots,y^{(n-1)}\right).
+\end{equation}
+令
+\[
+x_1=y,\qquad x_2=y',\qquad\ldots,\qquad x_n=y^{(n-1)},
+\]
+则 (\ref{equ:4.4}) 等价于
+\begin{equation}\label{equ:4.5}
+\left\{
+\begin{aligned}
+x_1'&=x_2,\\
+x_2'&=x_3,\\
+&\vdots\\
+x_{n-1}'&=x_n,\\
+x_n'&=f(t,x_1,\ldots,x_n).
+\end{aligned}
+\right.
+\end{equation}
+\end{prop}
+
+\begin{pf1}
+前 $n-1$ 个等式由变量定义直接得到. 最后一个等式等价于
+\[
+x_n'=y^{(n)}=f(t,y,\ldots,y^{(n-1)}),
+\]
+也就是 $x_n'=f(t,x_1,\ldots,x_n)$. 反过来，由 (\ref{equ:4.5}) 的链式关系
+可逐一得到 $x_i=y^{(i-1)}$，最后得到 (\ref{equ:4.4}).
+\end{pf1}
+
+上述结论可推广到高阶方程组. 设系统含有 $m$ 个未知函数
+$y_1,\ldots,y_m$，其中 $y_i$ 的最高阶导数为 $n_i$，并且最高阶导数已经
+显式解出. 对每个 $y_i$ 引入状态变量
+\[
+x_{i,1}=y_i,\quad x_{i,2}=y_i',\quad\ldots,\quad
+x_{i,n_i}=y_i^{(n_i-1)}.
+\]
+每个 $y_i$ 的导数关系给出一部分一阶方程，而原来的最高阶方程给出
+\[
+x_{i,n_i}'=
+f_i\left(t,y_1,y_1',\ldots,x_{1,n_1},\ldots,x_{m,n_m}\right).
+\]
+把所有 $x_{i,j}$ 按任意固定顺序排成状态向量，便得到一阶微分方程组.
+反过来，任意一阶方程组都是这种变换的特殊情形. 因此研究一阶方程组并不失去
+一般性.
+
+初始条件也同步变换为
+\[
+x_i(t_0)=y^{(i-1)}(t_0),\qquad i=1,\ldots,n.
+\]
+对于含有多个未知函数的高阶方程组，应对每个未知函数逐阶引入状态变量，
+直到所有方程只含一阶导数.
+
+\begin{eg}
+将
+\[
+y''-2y'+5y=\sin t,\qquad y(0)=1,\quad y'(0)=0
+\]
+化为一阶微分方程组.
+\begin{pf2}
+令 $x_1=y,\ x_2=y'$，则
+\[
+\left\{
+\begin{aligned}
+x_1'&=x_2,\\
+x_2'&=-5x_1+2x_2+\sin t.
+\end{aligned}
+\right.
+\]
+矩阵形式为
+\[
+\frac{d}{dt}
+\begin{pmatrix}x_1\\x_2\end{pmatrix}
+=
+\begin{pmatrix}0&1\\-5&2\end{pmatrix}
+\begin{pmatrix}x_1\\x_2\end{pmatrix}
++\begin{pmatrix}0\\\sin t\end{pmatrix},
+\qquad
+\begin{pmatrix}x_1(0)\\x_2(0)\end{pmatrix}
+=
+\begin{pmatrix}1\\0\end{pmatrix}.
+\]
+\end{pf2}
+\end{eg}
+
+\subsection{函数向量、函数矩阵及其范数}
+
+若 $x_i(t)$ 是区间 $I$ 上的函数，则
+\[
+\bm{x}(t)=(x_1(t),\ldots,x_n(t))^\mathrm{T}
+\]
+称为\textbf{函数列向量}. 若 $a_{ij}(t)$ 是 $I$ 上的函数，则
+\[
+A(t)=(a_{ij}(t))_{n\times n}
+\]
+称为\textbf{函数矩阵}. 函数向量和函数矩阵的加法、数乘、矩阵乘法与常向量、
+常矩阵的运算规则相同；其连续性、导数与积分均按分量（元素）定义，即对每个
+分量或每个元素分别作相应运算：
+\[
+\bm{x}'(t)=\bigl(x_1'(t),\ldots,x_n'(t)\bigr)^\mathrm{T},\qquad
+A'(t)=\bigl(a_{ij}'(t)\bigr)_{n\times n},
+\]
+\[
+\int_a^b\bm{x}(t)\,dt
+=\left(\int_a^b x_1(t)\,dt,\ldots,\int_a^b x_n(t)\,dt\right)^\mathrm{T},
+\qquad
+\int_a^b A(t)\,dt=\left(\int_a^b a_{ij}(t)\,dt\right)_{n\times n},
+\]
+只要右端各分量（元素）的导数或积分存在. 当相应导数存在时，乘积的求导仍满足
+乘法法则：
+\begin{equation}\label{equ:4.6}
+\frac{d}{dt}\bigl(A(t)\bm{x}(t)\bigr)
+=A'(t)\bm{x}(t)+A(t)\bm{x}'(t).
+\end{equation}
+
+对
+$\bm{x}=(x_1,\ldots,x_n)^\mathrm{T}$ 和 $A=(a_{ij})_{n\times n}$，定义
+\begin{equation}\label{equ:4.7}
+\|\bm{x}\|=\sum_{i=1}^n|x_i|,
+\qquad
+\|A\|=\sum_{i,j=1}^n|a_{ij}|.
+\end{equation}
+
+\begin{prop}\label{prop:4.1.2}
+上述范数满足
+\begin{description}
+\item[(i)] $\|\bm{x}\|\ge0,\ \|A\|\ge0$，且范数为零当且仅当向量或矩阵为零；
+\item[(ii)] $\|c\bm{x}\|=|c|\|\bm{x}\|,\ \|cA\|=|c|\|A\|$；
+\item[(iii)] $\|\bm{x}+\bm{y}\|\le\|\bm{x}\|+\|\bm{y}\|,\
+\|A+B\|\le\|A\|+\|B\|$；
+\item[(iv)] $\|A\bm{x}\|\le\|A\|\|\bm{x}\|,\
+\|AB\|\le\|A\|\|B\|$；
+\item[(v)]
+$\left\|\int_a^b\bm{x}(s)\,ds\right\|\le\int_a^b\|\bm{x}(s)\|\,ds$.
+\end{description}
+\end{prop}
+
+\begin{pf1}
+除乘积不等式外，其余性质均可由绝对值不等式和有限求和直接得到. 对
+$A=(a_{ij})$、$\bm{x}=(x_1,\ldots,x_n)^\mathrm{T}$，有
+\[
+\|A\bm{x}\|
+=\sum_{i=1}^n\left|\sum_{j=1}^n a_{ij}x_j\right|
+\le\sum_{i,j}|a_{ij}||x_j|
+\le\|A\|\sum_{j=1}^n|x_j|
+=\|A\|\|\bm{x}\|.
+\]
+取 $A,B$ 的乘积后再应用上式即得 $\|AB\|\le\|A\|\|B\|$.
+\end{pf1}
+
+若函数向量序列 $\{\bm{x}_k(t)\}$ 的每个分量都在 $I$ 上一致收敛，则称
+$\{\bm{x}_k(t)\}$ 在 $I$ 上\textbf{一致收敛}. 设有收敛的数项级数
+$\sum M_k$，并使
+\[
+\|\bm{x}_k(t)\|\le M_k,\qquad t\in I,
+\]
+则由 Weierstrass 判别法，函数向量级数 $\sum\bm{x}_k(t)$ 在 $I$ 上
+一致收敛；当连续函数向量列在闭区间上一致收敛时，还可以交换极限与积分：
+\[
+\lim_{k\to\infty}\int_{t_0}^{t}\bm{x}_k(s)\,ds
+=\int_{t_0}^{t}\lim_{k\to\infty}\bm{x}_k(s)\,ds.
+\]
+
+第 \ref{sec:1.2} 节中建立的 Gronwall 不等式（引理 \ref{lem:1.2.1}）在向量情形
+下同样适用：只需将其中的函数取为向量函数的范数，便可得到向量版本的估计，
+此处不再重复.
+
+\subsection{线性方程组的存在唯一性}
+
+\begin{thm}\label{thm:4.1.1}
+设 $A(t)$ 和 $\bm{f}(t)$ 在 $[a,b]$ 上连续，$t_0\in[a,b]$，
+$\bm{x}_0\in\R^n$. 则初值问题
+\begin{equation}\label{equ:4.8}
+\left\{
+\begin{aligned}
+&\bm{x}'=A(t)\bm{x}+\bm{f}(t),\\
+&\bm{x}(t_0)=\bm{x}_0
+\end{aligned}
+\right.
+\end{equation}
+在 $(a,b)$ 内存在唯一解.
+\end{thm}
+
+\begin{pf1}
+连续可微函数 $\bm{x}(t)$ 满足 (\ref{equ:4.8})，当且仅当它满足积分方程
+\begin{equation}\label{equ:4.9}
+\bm{x}(t)=\bm{x}_0+\int_{t_0}^{t}
+\left[A(s)\bm{x}(s)+\bm{f}(s)\right]ds.
+\end{equation}
+记 $F(t,\bm{x})=A(t)\bm{x}+\bm{f}(t)$. 由于 $A(t),\bm{f}(t)$ 在 $[a,b]$ 上
+连续，$F$ 在 $[a,b]\times\R^n$ 上连续，且关于 $\bm{x}$ 满足整体 Lipschitz
+条件：
+\[
+\|F(t,\bm{x})-F(t,\bm{y})\|
+\le\|A(t)\|\,\|\bm{x}-\bm{y}\|
+\le L\|\bm{x}-\bm{y}\|,
+\]
+其中 $L=\max\limits_{t\in[a,b]}\|A(t)\|$. 由第 \ref{sec:1.1} 节的存在唯一性
+定理（定理 \ref{thm:1.1.1}），初值问题 (\ref{equ:4.8}) 在 $t_0$ 的某邻域内
+存在唯一解.
+
+再证解可延拓到整个 $(a,b)$. 对 (\ref{equ:4.8}) 的任一解，由 (\ref{equ:4.9})
+得
+\[
+\|\bm{x}(t)\|
+\le\|\bm{x}_0\|+\int_{t_0}^{t}\bigl(L\|\bm{x}(s)\|+K\bigr)ds,
+\qquad K=\max_{t\in[a,b]}\|\bm{f}(t)\|.
+\]
+由 Gronwall 不等式（引理 \ref{lem:1.2.1}），$\bm{x}(t)$ 在 $[a,b]$ 的任意闭
+子区间上一致有界，不会在有限时刻发生爆破. 根据解的延拓定理（定理
+\ref{thm:1.2.2}），解的存在区间可扩大到 $(a,b)$.
+\end{pf1}
+
+若线性方程组为
+\[
+\bm{x}'=A(t)\bm{x},
+\]
+则齐次初值问题零初始条件只有零解. 
+
+\section{消元法与首次积分法}\label{sec:4.2}
+
+\subsection{消元法}
+
+对由两个未知函数构成的一阶方程组
+\[
+x'=f(t,x,y),\qquad y'=g(t,x,y),
+\]
+可从其中一个方程解出某个未知函数，再求导并代入另一个方程，从而得到一个
+只含一个未知函数的高阶方程. 求出该未知函数后，必须利用原方程组回代求另一个
+未知函数；若直接对已经求出的关系式求积分，可能引入不属于原方程组的额外常数.
+
+上述消元的关键是不断对关系式求导，再作线性组合. 对于线性方程组，这两类
+运算可以用一个记号统一刻画. 记 $D=\frac{d}{dt}$，则 $D^k$ 表示对函数求
+$k$ 阶导数；形如
+\[
+L(D)=D^n+a_1D^{n-1}+\cdots+a_n
+\]
+（$a_i$ 为常数）的表达式称为\textbf{微分算子多项式}，它作用于函数 $x(t)$
+的含义是
+\[
+L(D)x(t)=x^{(n)}(t)+a_1x^{(n-1)}(t)+\cdots+a_nx(t).
+\]
+引入算子的好处在于：消元中反复出现的“求导、相加、代入”被翻译成算子多项
+式之间的代数运算，因而可以像解普通线性方程组那样，用消元法或行列式
+（Cramer 法则）系统地进行. 这一方法成立的基础是：常系数微分算子多项式在
+相同函数上可交换，即对任意足够光滑的函数 $x$，
+\[
+L_1(D)L_2(D)x=L_2(D)L_1(D)x.
+\]
+若
+\[
+\left\{
+\begin{aligned}
+L_1(D)x_1+L_2(D)x_2&=g_1(t),\\
+L_3(D)x_1+L_4(D)x_2&=g_2(t),
+\end{aligned}
+\right.
+\]
+则用 $L_3(D)$ 作用第一式、用 $L_1(D)$ 作用第二式并相减，得
+\begin{equation}\label{equ:4.10}
+\bigl(L_1L_4-L_3L_2\bigr)x_2
+=L_1g_2-L_3g_1.
+\end{equation}
+该方程为只含 $x_2$ 的高阶线性方程. 求得 $x_2$ 后，可利用原方程组的一式
+求 $x_1$.
+
+\begin{thm}\label{thm:4.2.1}
+考虑常系数线性方程组
+\begin{equation}\label{equ:4.11}
+\sum_{j=1}^{m}L_{ij}(D)x_j=g_i(t),
+\qquad i=1,\ldots,m,
+\end{equation}
+其中 $L_{ij}(D)$ 是常系数微分算子多项式. 记
+\[
+\Delta(D)=\det\bigl(L_{ij}(D)\bigr)_{m\times m}.
+\]
+若 $\Delta(D)\not\equiv0$，则每个 $x_j$ 都满足一个仅含 $x_j$ 的高阶
+常系数线性方程；这些方程可由 $\Delta(D)$ 与右端函数经有限次求导、相加得到.
+\end{thm}
+
+\begin{pf1}
+将算子矩阵记为 $\mathcal L(D)$. 由于算子多项式具有交换性，可计算
+$\mathcal L(D)$ 的伴随矩阵
+$\mathcal L^*(D)$. 有
+\[
+\mathcal L^*(D)\mathcal L(D)
+=\Delta(D)I.
+\]
+用 $\mathcal L^*(D)$ 左乘 (\ref{equ:4.12}) 的向量形式，即得
+\[
+\Delta(D)x_j=h_j(t),\qquad j=1,\ldots,m,
+\]
+其中 $h_j(t)$ 是 $g_1,\ldots,g_m$ 的有限线性组合. 这便得到只含单个未知
+函数的高阶方程.
+\end{pf1}
+
+\begin{rmk}
+用算子消元得到若干个一阶或多阶方程后，仍须代回原方程组检验. 单独求得的
+高阶方程可能引入不属于原方程组的解，因此算子消元不能只保留最后得到的标量
+方程.
+\end{rmk}
+
+还需注意，算子作用于两个函数的乘积时仍须使用乘积法则，不能将 $L(D)$ 当作
+普通常数直接处理.
+
+\subsection{首次积分}
+
+\begin{deff}[(首次积分)]
+考虑方程组
+\begin{equation}\label{equ:4.12}
+\frac{dx_i}{dt}=f_i(t,x_1,\ldots,x_n),\qquad i=1,\ldots,n.
+\end{equation}
+若连续可微函数 $\varphi(t,x_1,\ldots,x_n)$ 不是常数，并且沿
+(\ref{equ:4.12}) 的任一解均有
+\[
+\varphi(t,x_1(t),\ldots,x_n(t))=C,
+\]
+其中 $C$ 只依赖于所取的具体解，则称
+\[
+\varphi(t,x_1,\ldots,x_n)=C
+\]
+为方程组 (\ref{equ:4.12}) 的一个\textbf{首次积分}.
+\end{deff}
+
+\begin{thm}\label{thm:4.2.2}
+连续可微函数 $\varphi$ 沿方程组 (\ref{equ:4.12}) 的解为常数的充要条件是
+\begin{equation}\label{equ:4.13}
+\frac{\partial\varphi}{\partial t}
++\sum_{i=1}^{n}f_i(t,x_1,\ldots,x_n)
+\frac{\partial\varphi}{\partial x_i}=0.
+\end{equation}
+\end{thm}
+
+\begin{pf1}
+沿任一解 $x_i=x_i(t)$，由复合函数求导得
+\[
+\frac{d}{dt}\varphi(t,x_1(t),\ldots,x_n(t))
+=\varphi_t+\sum_{i=1}^n f_i\varphi_{x_i}.
+\]
+若 (\ref{equ:4.13}) 成立，则全导数为零，故 $\varphi$ 为常数；反之，若
+$\varphi$ 沿任一解都是常数，则其全导数在解经过的区域内恒为零，从而
+(\ref{equ:4.13}) 成立.
+\end{pf1}
+
+\begin{deff}[(独立性)]
+设
+\[
+\varphi_i(t,x_1,\ldots,x_n)=C_i,\qquad i=1,\ldots,n
+\]
+为 $n$ 个首次积分. 若
+\[
+\frac{D(\varphi_1,\ldots,\varphi_n)}
+{D(x_1,\ldots,x_n)}
+=\det\left(\frac{\partial\varphi_i}{\partial x_j}\right)\ne0,
+\]
+则称这些首次积分在相应区域内\textbf{互相独立}.
+\end{deff}
+
+\begin{thm}\label{thm:4.2.3}
+若 $n$ 个未知函数的一阶方程组有 $n$ 个互相独立的首次积分，则可由这
+$n$ 个关系式确定方程组的通解. 已知一个首次积分，则可利用它消去一个
+未知函数，将原方程组化为含有 $n-1$ 个未知函数的方程组.
+\end{thm}
+
+\begin{pf1}
+设已知一个首次积分
+\[
+\varphi(t,x_1,\ldots,x_n)=C_1.
+\]
+若 $\varphi_{x_n}\ne0$，由隐函数定理可在局部解出
+\[
+x_n=\psi(t,x_1,\ldots,x_{n-1};C_1).
+\]
+将它代入前 $n-1$ 个方程，便得到变量
+$x_1,\ldots,x_{n-1}$ 的 $n-1$ 个方程. 因此一个首次积分可消去一个状态变量.
+
+若有 $n$ 个互相独立的首次积分，则 $n$ 个方程
+\[
+\varphi_i(t,x_1,\ldots,x_n)=C_i,\qquad i=1,\ldots,n
+\]
+关于 $x_1,\ldots,x_n$ 的 Jacobi 行列式不为零. 由隐函数定理可唯一解出
+\[
+x_i=\psi_i(t;C_1,\ldots,C_n),\qquad i=1,\ldots,n.
+\]
+这 $n$ 个函数的任意性来自 $n$ 个独立常数，因此构成原方程组的通解.
+\end{pf1}
+
+\begin{eg}
+求方程组
+\[
+x'=y,\qquad y'=x
+\]
+的通解.
+\begin{pf2}
+两式相加、相减，得
+\[
+(x+y)'=x+y,\qquad (x-y)'=-(x-y).
+\]
+因此
+\[
+(x+y)e^{-t}=C_1,\qquad (x-y)e^t=C_2
+\]
+是两个首次积分. 其 Jacobi 行列式不为零，故它们独立. 于是
+\[
+x=\frac12\left(C_1e^t+C_2e^{-t}\right),
+\qquad
+y=\frac12\left(C_1e^t-C_2e^{-t}\right).
+\]
+\end{pf2}
+\end{eg}
+
+\section{线性微分方程组的基本理论}\label{sec:4.3}
+
+本节讨论
+\begin{equation}\label{equ:4.14}
+\bm{x}'=A(t)\bm{x}+\bm{f}(t)
+\end{equation}
+及其对应的齐次方程组
+\begin{equation}\label{equ:4.15}
+\bm{x}'=A(t)\bm{x}.
+\end{equation}
+其中 $A(t),\bm{f}(t)$ 在 $[a,b]$ 上连续.
+
+\subsection{齐次方程组的解空间}
+
+\begin{thm}[(叠加原理)]\label{thm:4.3.1}
+若 $\bm{x}_1,\ldots,\bm{x}_m$ 是齐次方程组 (\ref{equ:4.15}) 的解，
+则任意线性组合
+\[
+\sum_{i=1}^m C_i\bm{x}_i
+\]
+仍是 (\ref{equ:4.15}) 的解.
+\end{thm}
+
+\begin{pf1}
+由 $A(t)$ 的线性性，
+\[
+\left(\sum_{i=1}^m C_i\bm{x}_i\right)'
+=\sum_{i=1}^m C_iA(t)\bm{x}_i
+=A(t)\sum_{i=1}^m C_i\bm{x}_i.
+\]
+\end{pf1}
+
+函数向量组的\textbf{线性相关}与\textbf{线性无关}，与第 \ref{sec:3.2} 节
+中标量函数组的相应定义完全类似，只需将标量函数改为函数向量、数 $0$ 改为
+零向量 $\bm{0}$，此处不再重复.
+
+\begin{deff}[(Wronskian 行列式)]
+以 $n$ 个函数向量 $\bm{x}_1,\ldots,\bm{x}_n$ 为列构造矩阵
+\[
+\Phi(t)=(\bm{x}_1(t),\ldots,\bm{x}_n(t)),
+\]
+称
+\[
+W(t)=\det\Phi(t)
+\]
+为这些函数向量的 \textbf{Wronskian 行列式}.
+\end{deff}
+
+\begin{thm}\label{thm:4.3.2}
+齐次方程组 (\ref{equ:4.15}) 的 $n$ 个解
+$\bm{x}_1,\ldots,\bm{x}_n$ 在 $[a,b]$ 上线性相关，当且仅当
+\[
+W(t)\equiv0.
+\]
+它们线性无关，当且仅当存在 $t_0\in[a,b]$，使 $W(t_0)\ne0$.
+\end{thm}
+
+\begin{pf1}
+若解组线性相关，则其列向量在任何时刻线性相关，故 $W(t)\equiv0$.
+
+反之，若 $W(t_0)=0$，则存在不全为零的 $C_1,\ldots,C_n$，使
+\[
+\sum_{i=1}^n C_i\bm{x}_i(t_0)=\bm{0}.
+\]
+线性组合 $\bm{x}(t)=\sum C_i\bm{x}_i(t)$ 是齐次方程组的解，并满足
+$\bm{x}(t_0)=\bm{0}$. 由齐次初值问题解的唯一性，$\bm{x}(t)\equiv\bm{0}$，
+故解组线性相关.
+\end{pf1}
+
+\begin{thm}[(Liouville 公式)]\label{thm:4.3.3}
+齐次方程组的任意 $n$ 个解构成的 Wronskian 行列式满足
+\begin{equation}\label{equ:4.16}
+W(t)=W(t_0)
+\exp\left(\int_{t_0}^{t}\trace A(s)\,ds\right).
+\end{equation}
+因此 $W(t)$ 在定义区间上要么恒为零，要么恒不为零.
+\end{thm}
+
+\begin{pf1}
+由行列式求导公式及 $\Phi'=A\Phi$，可得
+\[
+W'(t)=\trace A(t)\,W(t).
+\]
+解该一阶线性方程即得 (\ref{equ:4.16}).
+\end{pf1}
+
+\begin{rmk}
+当高阶线性方程
+\[
+y^{(n)}+a_1(t)y^{(n-1)}+\cdots+a_n(t)y=f(t)
+\]
+按命题 \ref{prop:4.1.1} 化为一阶组时，其基解矩阵的行列式恰为第
+\ref{sec:3.2} 节中的 Wronskian 行列式；又此时 $\trace A(t)=-a_1(t)$，
+故 (\ref{equ:4.16}) 退化为定理 \ref{thm:3.2.9} 的
+Liouville 公式. 因而本节的结论是第 \ref{sec:3.2} 节相应结论在矩阵形式
+下的推广，而非另起炉灶的重复.
+\end{rmk}
+
+\begin{thm}\label{thm:4.3.4}
+齐次方程组 (\ref{equ:4.15}) 一定存在 $n$ 个线性无关解，故其解空间是
+$n$ 维线性空间.
+\end{thm}
+
+\begin{pf1}
+任取 $t_0\in[a,b]$，由存在唯一性定理，分别求满足
+\[
+\bm{x}_i(t_0)=\bm{e}_i,\qquad i=1,\ldots,n
+\]
+的解 $\bm{x}_i(t)$，其中 $\bm{e}_i$ 为标准单位列向量. 此时
+$\Phi(t_0)=I$，故 $W(t_0)=1\ne0$. 由定理 \ref{thm:4.3.2}，这些解
+线性无关.
+\end{pf1}
+
+\begin{deff}[(基解矩阵)]
+齐次方程组 (\ref{equ:4.15}) 的 $n$ 个线性无关解称为\textbf{基本解组}.
+以基本解组为列构成的矩阵称为\textbf{基本解矩阵}或\textbf{基解矩阵}.
+\end{deff}
+
+\begin{thm}\label{thm:4.3.5}
+设 $\Phi(t)$ 是齐次方程组 (\ref{equ:4.15}) 的基解矩阵，则
+(\ref{equ:4.15}) 的通解为
+\begin{equation}\label{equ:4.17}
+\bm{x}(t)=\Phi(t)\bm{C},
+\qquad \bm{C}\in\R^n.
+\end{equation}
+\end{thm}
+
+\begin{pf1}
+由叠加原理，$\Phi(t)\bm{C}$ 是解. 反过来，设 $\bm{x}(t)$ 是任一解，
+取 $t_0\in[a,b]$，令
+\[
+\bm{C}=\Phi^{-1}(t_0)\bm{x}(t_0).
+\]
+则解 $\Phi(t)\bm{C}$ 与 $\bm{x}(t)$ 满足同一初始条件，由唯一性得
+$\bm{x}(t)=\Phi(t)\bm{C}$.
+\end{pf1}
+
+\begin{thm}\label{thm:4.3.6}
+设 $\Phi(t)$ 和 $\Psi(t)$ 都是齐次方程组 (\ref{equ:4.15}) 的基解矩阵，
+则存在非奇异常数矩阵 $C$，使
+\[
+\Psi(t)=\Phi(t)C.
+\]
+特别地，
+\[
+\Psi(t)=\Phi(t)\Phi^{-1}(t_0)
+\]
+是满足 $\Psi(t_0)=I$ 的基解矩阵.
+\end{thm}
+
+\begin{pf1}
+由于 $\Phi(t)$ 可逆，令
+\[
+X(t)=\Phi^{-1}(t)\Psi(t).
+\]
+利用 $\Phi'=A\Phi$、$\Psi'=A\Psi$，得
+\[
+X'(t)
+=-\Phi^{-1}\Phi'\Phi^{-1}\Psi+\Phi^{-1}\Psi'
+=-\Phi^{-1}A\Phi\Phi^{-1}\Psi
++\Phi^{-1}A\Psi=0.
+\]
+故 $X(t)$ 为常矩阵 $C$. 由于两个基解矩阵都可逆，$C$ 也非奇异.
+\end{pf1}
+
+\subsection{非齐次线性方程组}
+
+\begin{thm}\label{thm:4.3.7}
+设 $\Phi(t)$ 是齐次方程组 (\ref{equ:4.15}) 的基解矩阵，
+$\bm{x}_p(t)$ 是非齐次方程组 (\ref{equ:4.14}) 的一个特解，则
+(\ref{equ:4.14}) 的通解为
+\begin{equation}\label{equ:4.18}
+\bm{x}(t)=\Phi(t)\bm{C}+\bm{x}_p(t).
+\end{equation}
+\end{thm}
+
+\begin{pf1}
+任意两个非齐次方程组的解之差满足对应的齐次方程组，因此若
+$\bm{x}(t)$ 是任一解，则
+$\bm{x}(t)-\bm{x}_p(t)$ 是齐次解，故存在 $\bm{C}$ 使
+\[
+\bm{x}(t)-\bm{x}_p(t)=\Phi(t)\bm{C}.
+\]
+反之，(\ref{equ:4.18}) 显然是非齐次方程组的解.
+\end{pf1}
+
+\begin{thm}[(常数变易公式)]\label{thm:4.3.8}
+设 $\Phi(t)$ 是齐次方程组 (\ref{equ:4.15}) 的基解矩阵，则
+(\ref{equ:4.14}) 满足 $\bm{x}(t_0)=\bm{x}_0$ 的解为
+\begin{equation}\label{equ:4.19}
+\bm{x}(t)
+=\Phi(t)\Phi^{-1}(t_0)\bm{x}_0
++\Phi(t)\int_{t_0}^{t}\Phi^{-1}(s)\bm{f}(s)\,ds.
+\end{equation}
+\end{thm}
+
+\begin{pf1}
+令
+\[
+\bm{x}(t)=\Phi(t)\bm{C}(t).
+\]
+代入 (\ref{equ:4.14})，并利用 $\Phi'=A\Phi$，得
+\[
+\Phi(t)\bm{C}'(t)=\bm{f}(t),
+\]
+故
+\[
+\bm{C}(t)=\bm{C}(t_0)+\int_{t_0}^{t}\Phi^{-1}(s)\bm{f}(s)\,ds.
+\]
+由初始条件 $\bm{x}_0=\Phi(t_0)\bm{C}(t_0)$ 即可得到 (\ref{equ:4.19}).
+\end{pf1}
+
+\section{常系数齐次线性方程组}\label{sec:4.4}
+
+本节考虑
+\begin{equation}\label{equ:4.20}
+\bm{x}'=A\bm{x},
+\end{equation}
+其中 $A$ 为 $n\times n$ 实常数矩阵.
+
+\subsection{特征向量法}
+
+\begin{thm}\label{thm:4.4.1}
+设 $A$ 有 $n$ 个互异实特征值 $\lambda_1,\ldots,\lambda_n$，相应的
+特征向量为 $\bm{\alpha}_1,\ldots,\bm{\alpha}_n$，则
+(\ref{equ:4.20}) 的通解为
+\begin{equation}\label{equ:4.21}
+\bm{x}(t)=C_1\bm{\alpha}_1e^{\lambda_1t}
++\cdots+C_n\bm{\alpha}_ne^{\lambda_nt}.
+\end{equation}
+\end{thm}
+
+\begin{pf1}
+对每个 $i$，由 $A\bm{\alpha}_i=\lambda_i\bm{\alpha}_i$ 得
+\[
+\left(\bm{\alpha}_ie^{\lambda_it}\right)'
+=\lambda_i\bm{\alpha}_ie^{\lambda_it}
+=A\bm{\alpha}_ie^{\lambda_it}.
+\]
+故各 $\bm{\alpha}_ie^{\lambda_it}$ 均为解. 由于相应特征向量线性无关，
+这些解在 $t=0$ 构成基本解组.
+\end{pf1}
+
+若实矩阵 $A$ 有共轭复特征值
+\[
+\lambda=a+bi,\qquad \alpha=\bm{u}+i\bm{v},
+\]
+则
+\[
+\bm{z}(t)
+=\alpha e^{(a+bi)t}
+=\bm{u}(t)+i\bm{v}(t)
+\]
+是复值解. 与第 \ref{sec:3.3} 节中标量方程的复值解一样（定理 \ref{thm:3.3.1}），
+由线性性和实矩阵性质，其共轭、实部与虚部也都是解，故可取实部与虚部得到实解：
+\begin{equation}\label{equ:4.22}
+\bm{u}(t)
+=e^{at}\left(\bm{u}\cos bt-\bm{v}\sin bt\right),
+\end{equation}
+\begin{equation}\label{equ:4.23}
+\bm{v}(t)
+=e^{at}\left(\bm{u}\sin bt+\bm{v}\cos bt\right).
+\end{equation}
+
+\subsection{重特征值与广义特征向量}
+
+设 $\lambda$ 为 $A$ 的 $k$ 重特征根. 若对应的特征向量个数达到 $k$，
+直接取各特征向量对应的解 $\bm{\alpha}_je^{\lambda t}$. 若特征向量个数
+不足，则需构造广义特征向量链
+\begin{equation}\label{equ:4.24}
+(A-\lambda I)\bm{\alpha}_1=0,
+\qquad
+(A-\lambda I)\bm{\alpha}_j=\bm{\alpha}_{j-1},
+\quad j=2,\ldots,k.
+\end{equation}
+
+\begin{thm}\label{thm:4.4.2}
+设 $\bm{\alpha}_1,\ldots,\bm{\alpha}_k$ 满足
+(\ref{equ:4.24})，其中 $\bm{\alpha}_1\ne0$，则
+\begin{equation}\label{equ:4.25}
+\bm{x}_j(t)
+=e^{\lambda t}\left(
+\bm{\alpha}_j+t\bm{\alpha}_{j-1}
++\frac{t^2}{2!}\bm{\alpha}_{j-2}
++\cdots
++\frac{t^{j-1}}{(j-1)!}\bm{\alpha}_1
+\right),
+\quad j=1,\ldots,k
+\end{equation}
+是 $k$ 个线性无关解.
+\end{thm}
+
+\begin{pf1}
+记 $N=A-\lambda I$. 对 $\bm{x}_j$ 求导并减去 $A\bm{x}_j$，可得
+\[
+\bm{x}_j'-A\bm{x}_j
+=e^{\lambda t}\left[
+\bm{\alpha}_{j-1}-N\bm{\alpha}_j
++t(\bm{\alpha}_{j-2}-N\bm{\alpha}_{j-1})
++\cdots
+\right].
+\]
+由等式链 (\ref{equ:4.24})，每一项均为零，所以
+$\bm{x}_j'=A\bm{x}_j$.
+
+下面证明线性无关性. 设
+\[
+C_1\bm{x}_1(t)+\cdots+C_k\bm{x}_k(t)\equiv0.
+\]
+在 $t=0$ 得
+\[
+C_1\bm{\alpha}_1+\cdots+C_k\bm{\alpha}_k=0.
+\]
+用 $N^{k-1}=(A-\lambda I)^{k-1}$ 作用，并利用
+$N^{k-1}\bm{\alpha}_j=0\ (j<k)$、$N^{k-1}\bm{\alpha}_k=\bm{\alpha}_1$，
+得到 $C_k\bm{\alpha}_1=0$. 因 $\bm{\alpha}_1\ne0$，故 $C_k=0$.
+再依次用 $N^{k-2},\ldots,N$ 作用于 $t=0$ 的关系式，可依次得到
+$C_{k-1}=0,\ldots,C_1=0$. 因此这些解线性无关.
+\end{pf1}
+
+\begin{eg}
+求
+\[
+\bm{x}'=
+\begin{pmatrix}
+3&1\\
+-1&1
+\end{pmatrix}\bm{x}
+\]
+的通解.
+\begin{pf2}
+特征方程为
+\[
+\det(A-\lambda I)=(\lambda-2)^2=0.
+\]
+取特征向量
+\[
+\bm{\alpha}_1=
+\begin{pmatrix}1\\-1\end{pmatrix}.
+\]
+解
+\[
+(A-2I)\bm{\alpha}_2=\bm{\alpha}_1,
+\]
+可取
+\[
+\bm{\alpha}_2=
+\begin{pmatrix}-1\\0\end{pmatrix}.
+\]
+因此
+\[
+\bm{x}_1(t)=
+\begin{pmatrix}1\\-1\end{pmatrix}e^{2t},
+\qquad
+\bm{x}_2(t)=
+\left[
+\begin{pmatrix}-1\\0\end{pmatrix}
++t\begin{pmatrix}1\\-1\end{pmatrix}
+\right]e^{2t}.
+\]
+通解为
+\[
+\bm{x}=C_1\bm{x}_1+C_2\bm{x}_2.
+\]
+\end{pf2}
+\end{eg}
+
+\subsection{矩阵指数}
+
+\begin{deff}[(矩阵指数)]
+对 $n\times n$ 常数矩阵 $A$，定义
+\begin{equation}\label{equ:4.26}
+e^{At}
+=\sum_{k=0}^{\infty}\frac{A^kt^k}{k!}.
+\end{equation}
+\end{deff}
+
+\begin{thm}\label{thm:4.4.3}
+矩阵指数满足
+\begin{description}
+\item[(i)] $e^{A0}=I$；
+\item[(ii)] $e^{A(t+s)}=e^{At}e^{As}$，从而 $(e^{At})^{-1}=e^{-At}$；
+\item[(iii)] $\dfrac{d}{dt}e^{At}=Ae^{At}$；
+\item[(iv)] 若 $AB=BA$，则 $e^{A+B}=e^Ae^B$；
+\item[(v)] 对任意可逆矩阵 $S$，有
+$e^{S^{-1}AS}=S^{-1}e^{AS}S$.
+\end{description}
+\end{thm}
+
+\begin{thm}\label{thm:4.4.4}
+$\Phi(t)=e^{At}$ 是方程组 (\ref{equ:4.20}) 的基解矩阵，且
+$\Phi(0)=I$. 因此 (\ref{equ:4.20}) 的通解为
+\[
+\bm{x}(t)=e^{At}\bm{C}.
+\]
+\end{thm}
+
+\begin{pf1}
+由定理 \ref{thm:4.4.3}，
+\[
+\frac{d}{dt}e^{At}=Ae^{At},\qquad e^{A0}=I.
+\]
+由 $A0=0A$ 及矩阵指数的性质得
+$e^{A0}=I$，从而行列式为 1，故 $e^{At}$ 是基解矩阵.
+\end{pf1}
+
+\begin{cor}\label{cor:4.4.1}
+若 $A$ 只有一个特征值 $\lambda$，则
+\begin{equation}\label{equ:4.27}
+e^{At}
+=e^{\lambda t}\sum_{k=0}^{n-1}
+\frac{t^k}{k!}(A-\lambda I)^k.
+\end{equation}
+\end{cor}
+
+\begin{pf1}
+令 $N=A-\lambda I$. 由于 $\lambda$ 是唯一的特征值，$N$ 的全部特征值都是
+零，故 $N$ 为幂零矩阵. 于是
+\[
+e^{At}
+=e^{\lambda t}e^{Nt}
+=e^{\lambda t}\sum_{k=0}^{n-1}\frac{t^k}{k!}N^k.
+\]
+\end{pf1}
+
+\begin{thm}[(Hamilton--Cayley 定理)]\label{thm:4.4.5}
+设 $A$ 的特征多项式为
+\[
+p_A(\lambda)=\det(\lambda I-A)
+=\lambda^n+c_1\lambda^{n-1}+\cdots+c_n,
+\]
+则
+\[
+p_A(A)=A^n+c_1A^{n-1}+\cdots+c_nI=O.
+\]
+因此任意矩阵幂 $A^k\ (k\ge n)$ 都可由
+$I,A,\ldots,A^{n-1}$ 线性表示.
+\end{thm}
+
+\begin{cor}\label{cor:4.4.2}
+对任意实数 $t$，存在函数 $\alpha_0(t),\ldots,\alpha_{n-1}(t)$，使
+\begin{equation}\label{equ:4.28}
+e^{At}
+=\sum_{k=0}^{n-1}\alpha_k(t)A^k.
+\end{equation}
+\end{cor}
+
+\begin{pf1}
+由 $e^{At}$ 的幂级数定义及 Hamilton--Cayley 定理，任意高次幂都可以逐次
+降为不超过 $n-1$ 次的矩阵多项式. 有限项合并后即得 (\ref{equ:4.28}).
+\end{pf1}
+
+\begin{rmk}
+若 $A$ 的特征值 $\lambda_1,\ldots,\lambda_r$ 互异，则可用满足
+\[
+H_j(\lambda_k)=\delta_{jk}
+\]
+的 Lagrange 插值多项式 $H_j$，得到
+\[
+e^{At}=\sum_{j=1}^{r}e^{\lambda_jt}H_j(A).
+\]
+这给出了不必显式求 $S$ 与 $S^{-1}$ 的一种矩阵指数计算方法.
+\end{rmk}
+
+\begin{rmk}
+\begin{description}
+\item[(i)] 当 $A$ 可对角化时，可写成
+$A=S\diag(\lambda_1,\ldots,\lambda_n)S^{-1}$，其中 $S$ 可逆，于是
+\[
+e^{At}
+=S\diag(e^{\lambda_1t},\ldots,e^{\lambda_nt})S^{-1}.
+\]
+\item[(ii)] 矩阵指数与特征根法本质相同：特征根法直接构造基解矩阵，矩阵指数
+给出统一而简洁的算子表示.
+\item[(iii)] 若右端出现常数矩阵与函数矩阵的乘积，必须保持乘法顺序，不能将
+矩阵当作普通数交换位置.
+\end{description}
+\end{rmk}
+
+\section{常系数非齐次线性方程组}\label{sec:4.5}
+
+考虑
+\begin{equation}\label{equ:4.29}
+\bm{x}'=A\bm{x}+\bm{f}(t),
+\end{equation}
+其中 $A$ 为常数矩阵，$\bm{f}(t)$ 连续.
+
+\subsection{常数变易法}
+
+由定理 \ref{thm:4.3.8}，若取 $\Phi(t)=e^{At}$，则
+(\ref{equ:4.29}) 的通解为
+\begin{equation}\label{equ:4.30}
+\bm{x}(t)
+=e^{At}\bm{C}
++\int_{t_0}^{t}e^{A(t-s)}\bm{f}(s)\,ds.
+\end{equation}
+满足 $\bm{x}(t_0)=\bm{x}_0$ 的解为
+\begin{equation}\label{equ:4.31}
+\bm{x}(t)
+=e^{A(t-t_0)}\bm{x}_0
++\int_{t_0}^{t}e^{A(t-s)}\bm{f}(s)\,ds.
+\end{equation}
+
+\subsection{线性变换法}
+
+若 $A$ 有 $n$ 个线性无关特征向量
+$\bm{\alpha}_1,\ldots,\bm{\alpha}_n$，令
+\[
+T=(\bm{\alpha}_1,\ldots,\bm{\alpha}_n),
+\qquad \bm{x}=T\bm{y},
+\]
+则
+\begin{equation}\label{equ:4.32}
+\bm{y}'
+=\diag(\lambda_1,\ldots,\lambda_n)\bm{y}
++T^{-1}\bm{f}(t).
+\end{equation}
+方程组因此解耦为 $n$ 个一阶线性方程
+\begin{equation}\label{equ:4.33}
+y_i'=\lambda_iy_i+g_i(t),\qquad i=1,\ldots,n.
+\end{equation}
+分别求解后再令 $\bm{x}=T\bm{y}$.
+
+\subsection{待定系数法与叠加原理}
+
+第 \ref{sec:3.4} 节针对高阶方程介绍的待定系数法可自然推广到方程组：当右端
+为多项式、指数函数与三角函数的有限乘积时，可设出同类形式的特解并比较系数.
+与标量情形一致，若指数上的频率恰为系数矩阵的特征值，则需相应抬高特解中多项
+式的次数；差别仅在于此处按广义特征向量链的长度衡量重数.
+
+\begin{thm}[(叠加原理)]\label{thm:4.5.1}
+若 $\bm{x}_i$ 是非齐次方程组
+\[
+\bm{x}'=A\bm{x}+\bm{f}_i(t)
+\]
+的解，则 $\sum\bm{x}_i$ 是
+\[
+\bm{x}'=A\bm{x}+\sum\bm{f}_i(t)
+\]
+的解；若 $\bm{x}_1,\bm{x}_2$ 是非齐次方程组 (\ref{equ:4.29}) 的解，
+则 $\bm{x}_1-\bm{x}_2$ 是对应齐次方程组的解.
+\end{thm}
+
+\begin{thm}\label{thm:4.5.2}
+设
+\[
+\bm{f}(t)=e^{\mu t}\bm{P}_m(t),
+\]
+其中 $\bm{P}_m(t)$ 是次数不超过 $m$ 的多项式向量. 设 $q$ 为特征值
+$\mu$ 对应的最长广义特征向量链长度；若 $\mu$ 不是特征值，则取 $q=0$.
+则方程组
+\[
+\bm{x}'=A\bm{x}+e^{\mu t}\bm{P}_m(t)
+\]
+存在形如
+\begin{equation}\label{equ:4.34}
+\bm{x}_p(t)=e^{\mu t}\bm{Q}_{m+q}(t)
+\end{equation}
+的特解，其中 $\bm{Q}_{m+q}(t)$ 是次数不超过 $m+q$ 的多项式向量.
+\end{thm}
+
+\begin{pf1}
+将 (\ref{equ:4.34}) 代入方程组，并除以非零因子 $e^{\mu t}$，得到
+\[
+\bm{Q}'+(\mu I-A)\bm{Q}=\bm{P}_m.
+\]
+比较各次幂的系数，得到一个含待定向量的线性代数方程组. 当 $\mu$ 不是特征值
+时，$\mu I-A$ 可逆，多项式次数不需升高，取 $q=0$ 即可唯一确定系数.
+当 $\mu$ 是特征值且存在广义特征向量链时，低次方程之间出现相容性约束；
+将多项式次数提高 $q$，即可逐次消除约束并确定全部系数. 因此
+(\ref{equ:4.34}) 给出了所求特解的形式.
+\end{pf1}
+
+\begin{rmk}
+若右端是实正弦、余弦函数，可将其写成复指数函数的实部或虚部，先在复数域中
+求特解，再取实部或虚部. 这种处理方法与实值待定系数法结果相同，但能统一
+处理不同频率和共振情形.
+\end{rmk}
+
+\begin{eg}
+求
+\[
+\bm{x}'=
+\begin{pmatrix}
+1&2\\
+4&3
+\end{pmatrix}\bm{x}
++\begin{pmatrix}4\\-2\end{pmatrix}e^t
+\]
+的一个特解.
+\begin{pf2}
+矩阵 $A$ 的特征值为 $5,-1$，而 $\mu=1$ 不是特征值，故设
+\[
+\bm{x}_p=\begin{pmatrix}u\\v\end{pmatrix}e^t.
+\]
+代入得
+\[
+u=u+2v+4,\qquad v=4u+3v-2.
+\]
+解得
+\[
+u=\frac32,\qquad v=-2.
+\]
+因此
+\[
+\bm{x}_p=
+\begin{pmatrix}
+\frac32\\-2
+\end{pmatrix}e^t.
+\]
+\end{pf2}
+\end{eg}
+
+\begin{rmk}
+\begin{description}
+\item[(i)] 常数变易法适用于连续右端，理论最完整；其代价是通常要计算
+矩阵指数或逆矩阵.
+\item[(ii)] 线性变换法要求系数矩阵具有足够多的线性无关特征向量；
+若矩阵不可对角化，则需先处理广义特征向量链.
+\item[(iii)] 待定系数法计算简洁，但只适用于多项式、指数函数、正弦余弦及其
+有限乘积型右端.
+\item[(iv)] 上述方法讨论的是理论解结构；具体物理、生物或工程建模不在本章范围.
+\end{description}
+\end{rmk}
+
